@@ -1,3 +1,43 @@
 helm charts
 
-helm create my-first-chat
+helm ls -A
+
+helm create my-first-chart
+
+
+shakerreddy_devops@cloudshell:~/helmcharts (forward-rarity-379111)$ helm ls -A
+NAME    NAMESPACE       REVISION        UPDATED STATUS  CHART   APP VERSION
+shakerreddy_devops@cloudshell:~/helmcharts (forward-rarity-379111)$ helm install custom-deployment my-first-chart
+NAME: custom-deployment
+LAST DEPLOYED: Wed Mar  1 06:42:47 2023
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+NOTES:
+1. Get the application URL by running these commands:
+  export POD_NAME=$(kubectl get pods --namespace default -l "app.kubernetes.io/name=my-first-chart,app.kubernetes.io/instance=custom-deployment" -o jsonpath="{.items[0].metadata.name}")
+  export CONTAINER_PORT=$(kubectl get pod --namespace default $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+  echo "Visit http://127.0.0.1:8080 to use your application"
+  kubectl --namespace default port-forward $POD_NAME 8080:$CONTAINER_PORT
+  
+  
+shakerreddy_devops@cloudshell:~/helmcharts (forward-rarity-379111)$ helm ls -A
+NAME                    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART                   APP VERSION
+custom-deployment       default         1               2023-03-01 06:42:47.819613075 +0000 UTC deployed        my-first-chart-0.1.0    1.16.0
+
+
+
+shakerreddy_devops@cloudshell:~/helmcharts (forward-rarity-379111)$ kubectl get all
+NAME                                                    READY   STATUS    RESTARTS   AGE
+pod/custom-deployment-my-first-chart-6fc4595577-99xcg   1/1     Running   0          9m57s
+
+NAME                                       TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)   AGE
+service/custom-deployment-my-first-chart   ClusterIP   10.8.1.220   <none>        80/TCP    9m58s
+service/kubernetes                         ClusterIP   10.8.0.1     <none>        443/TCP   15m
+
+NAME                                               READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/custom-deployment-my-first-chart   1/1     1            1           9m58s
+
+NAME                                                          DESIRED   CURRENT   READY   AGE
+replicaset.apps/custom-deployment-my-first-chart-6fc4595577   1         1         1       9m59s
+shakerreddy_devops@cloudshell:~/helmcharts (forward-rarity-379111)$
