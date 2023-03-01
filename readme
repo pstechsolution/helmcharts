@@ -1,1 +1,3 @@
 helm charts
+
+helm create my-first-chat
